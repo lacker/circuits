@@ -2,18 +2,20 @@
 
 
 class Toffoli:
-    def __init__(self, i, j, k):
-        self.i = i
-        self.j = j
-        self.k = k
+    def __init__(self, inputs, output):
+        if output in inputs:
+            raise Exception("bad Toffoli gate")
+        self.inputs = inputs
+        self.output = output
 
     def __str__(self):
-        return f"T({self.i}, {self.j}, {self.k})"
+        inputs = ",".join(map(str, self.inputs))
+        return f"Toffoli([{inputs}], {self.output})"
 
     def __call__(self, bits):
-        if bits[self.i] and bits[self.j]:
+        if all(bits[i] for i in self.inputs):
             copy = list(bits)
-            copy[self.k] = 1 - copy[self.k]
+            copy[self.output] = 1 - copy[self.output]
             return tuple(copy)
         else:
             return bits
@@ -45,3 +47,13 @@ def domain(n):
 
     subdomain = domain(n - 1)
     return [(0,) + x for x in subdomain] + [(1,) + x for x in subdomain]
+
+
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+
+if __name__ == "__main__":
+    print(factorial(8))
