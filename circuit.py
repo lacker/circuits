@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+N = 3
+
 
 class Toffoli:
     def __init__(self, inputs, output):
@@ -53,6 +55,16 @@ def factorial(n):
     if n <= 1:
         return 1
     return n * factorial(n - 1)
+
+
+def signature(circuit, n):
+    """
+    A representation of all outputs of the circuit.
+    """
+    outputs = []
+    for b in domain(n):
+        outputs.append(circuit(b))
+    return tuple(outputs)
 
 
 if __name__ == "__main__":
