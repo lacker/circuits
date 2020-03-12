@@ -67,5 +67,12 @@ def signature(circuit, n):
     return tuple(outputs)
 
 
+def sublists(alist):
+    if not alist:
+        return [[]]
+    subsub = sublists(alist[1:])
+    return subsub + [[alist[0]] + x for x in subsub]
+
+
 if __name__ == "__main__":
     print(factorial(8))

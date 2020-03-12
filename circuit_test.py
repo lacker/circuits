@@ -10,6 +10,10 @@ class TestCircuit(unittest.TestCase):
         d4 = domain(4)
         self.assertEqual(len(d4), 16)
 
+    def test_sublists(self):
+        subs = sublists([1, 2, 3, 4])
+        self.assertEqual(len(subs), 16)
+
 
 if __name__ == "__main__":
     unittest.main()
