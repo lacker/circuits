@@ -7,7 +7,7 @@ class Toffoli:
     def __init__(self, inputs, output):
         if output in inputs:
             raise Exception("bad Toffoli gate")
-        self.inputs = inputs
+        self.inputs = tuple(inputs)
         self.output = output
 
     def __str__(self):
@@ -72,6 +72,18 @@ def sublists(alist):
         return [[]]
     subsub = sublists(alist[1:])
     return subsub + [[alist[0]] + x for x in subsub]
+
+
+def all_gates(n):
+    """
+    All gates of size n.
+    """
+    answer = []
+    for i in range(n):
+        others = [x for x in range(n) if x != i]
+        for sublist in sublists(others):
+            answer.push(Toffoli(sublist, i))
+    return answer
 
 
 if __name__ == "__main__":
