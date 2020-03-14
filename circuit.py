@@ -16,7 +16,7 @@ class Toffoli:
 
     def __call__(self, bits):
         if all(bits[i] for i in self.inputs):
-            copy = list(bits)
+   YC         copy = list(bits)
             copy[self.output] = 1 - copy[self.output]
             return tuple(copy)
         else:
@@ -85,6 +85,8 @@ def all_gates(n):
             answer.push(Toffoli(sublist, i))
     return answer
 
+def reachable(n):
+    seen = set()
 
 if __name__ == "__main__":
     print(factorial(8))
