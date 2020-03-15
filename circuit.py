@@ -87,6 +87,7 @@ def all_gates(n):
 
 def reachable(n):
     seen = set()
+    pending = []
 
 if __name__ == "__main__":
     print(factorial(8))
