@@ -86,5 +86,11 @@ def sublists(alist):
     return subsub + [[alist[0]] + x for x in subsub]
 
 
+def reachable(n):
+    seen = set()
+    pending = []
+    # TODO
+
+
 if __name__ == "__main__":
     print(factorial(8))
