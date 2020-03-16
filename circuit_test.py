@@ -14,6 +14,10 @@ class TestCircuit(unittest.TestCase):
         subs = sublists([1, 2, 3, 4])
         self.assertEqual(len(subs), 16)
 
+    def test_toffoli_all(self):
+        gates = Toffoli.all(3)
+        self.assertEqual(len(gates), 12)
+
 
 if __name__ == "__main__":
     unittest.main()

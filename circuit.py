@@ -22,6 +22,18 @@ class Toffoli:
         else:
             return bits
 
+    @staticmethod
+    def all(n):
+        """
+        All Toffoli gates of size n.
+        """
+        answer = []
+        for i in range(n):
+            others = [x for x in range(n) if x != i]
+            for sublist in sublists(others):
+                answer.append(Toffoli(sublist, i))
+        return answer
+
     def decomposition(self):
         return [self]
 
@@ -72,18 +84,6 @@ def sublists(alist):
         return [[]]
     subsub = sublists(alist[1:])
     return subsub + [[alist[0]] + x for x in subsub]
-
-
-def all_gates(n):
-    """
-    All gates of size n.
-    """
-    answer = []
-    for i in range(n):
-        others = [x for x in range(n) if x != i]
-        for sublist in sublists(others):
-            answer.push(Toffoli(sublist, i))
-    return answer
 
 
 if __name__ == "__main__":
