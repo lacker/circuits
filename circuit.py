@@ -86,10 +86,21 @@ def sublists(alist):
     return subsub + [[alist[0]] + x for x in subsub]
 
 
+# TODO: test this
 def reachable(n):
     seen = set()
-    pending = []
-    # TODO
+    answer = []
+    pending = Toffoli.all(n)
+    while pending:
+        circuit = pending.pop()
+        sig = signature(circuit, n)
+        if sig in seen:
+            continue
+        seen.add(sig)
+        answer.append(circuit)
+        more = [Composition(circuit, g) for g in Toffoli.all()]
+        pending = more + pending
+    return answer
 
 
 if __name__ == "__main__":
