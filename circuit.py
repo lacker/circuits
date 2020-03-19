@@ -84,7 +84,7 @@ def signature(circuit, n):
 def impact(circuit, n):
     answer = 0
     for b in domain(n):
-        if b == circuit(b):
+        if b != circuit(b):
             answer += 1
     return answer
 
@@ -118,6 +118,8 @@ def reachable(fanin, n):
             print(f"found {len(seen)} unique circuits")
         if impact(circuit, n) == 2:
             print(f"found single-flop: {circuit}")
+            print(signature(circuit, n))
+            break
         answer.append(circuit)
         more = [Composition(circuit, g) for g in atoms]
         pending = more + pending
@@ -125,10 +127,8 @@ def reachable(fanin, n):
 
 
 if __name__ == "__main__":
+    print(impact(Toffoli([], 0), 4))
     n = 4
     fanin = 2
     r = reachable(fanin, n)
-    for c in r:
-        sig = signature(c, n)
-        print(sig)
-    print(len(r))
+    print(f"{len(r)} searched")
