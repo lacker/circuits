@@ -23,14 +23,16 @@ class Toffoli:
             return bits
 
     @staticmethod
-    def all(n):
+    def generate(fanin, n):
         """
-        All Toffoli gates of size n.
+        All Toffoli gates over n bits, with at most fanin inputs.
         """
         answer = []
         for i in range(n):
             others = [x for x in range(n) if x != i]
             for sublist in sublists(others):
+                if len(sublist) > fanin:
+                    continue
                 answer.append(Toffoli(sublist, i))
         return answer
 
@@ -80,6 +82,9 @@ def signature(circuit, n):
 
 
 def sublists(alist):
+    """
+    All sublists of the given list.
+    """
     if not alist:
         return [[]]
     subsub = sublists(alist[1:])
@@ -87,21 +92,33 @@ def sublists(alist):
 
 
 # TODO: test this
-def reachable(n):
+def reachable(fanin, n):
+    """
+    Figure out what circuits are reachable from gates with limited fanin.
+    """
     seen = set()
     answer = []
-    pending = Toffoli.all(n)
+    atoms = Toffoli.generate(fanin, n)
+    pending = list(atoms)
     while pending:
         circuit = pending.pop()
         sig = signature(circuit, n)
         if sig in seen:
             continue
         seen.add(sig)
+        if len(seen) % 10000 == 0:
+            print(f"found {len(seen)} unique circuits")
         answer.append(circuit)
-        more = [Composition(circuit, g) for g in Toffoli.all()]
+        more = [Composition(circuit, g) for g in atoms]
         pending = more + pending
     return answer
 
 
 if __name__ == "__main__":
-    print(factorial(8))
+    n = 4
+    fanin = 1
+    r = reachable(fanin, n)
+    for c in r:
+        sig = signature(c, n)
+        print(sig)
+    print(len(r))
