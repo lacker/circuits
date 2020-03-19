@@ -81,6 +81,14 @@ def signature(circuit, n):
     return tuple(outputs)
 
 
+def impact(circuit, n):
+    answer = 0
+    for b in domain(n):
+        if b == circuit(b):
+            answer += 1
+    return answer
+
+
 def sublists(alist):
     """
     All sublists of the given list.
@@ -108,6 +116,8 @@ def reachable(fanin, n):
         seen.add(sig)
         if len(seen) % 10000 == 0:
             print(f"found {len(seen)} unique circuits")
+        if impact(circuit, n) == 2:
+            print(f"found single-flop: {circuit}")
         answer.append(circuit)
         more = [Composition(circuit, g) for g in atoms]
         pending = more + pending
@@ -116,7 +126,7 @@ def reachable(fanin, n):
 
 if __name__ == "__main__":
     n = 4
-    fanin = 1
+    fanin = 2
     r = reachable(fanin, n)
     for c in r:
         sig = signature(c, n)
